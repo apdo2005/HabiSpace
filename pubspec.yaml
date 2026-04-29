@@ -4,17 +4,20 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.4
+  sdk: ">=3.10.0 <4.0.0"
+
 dependencies:
   cupertino_icons: ^1.0.8
-  dio: ^5.9.2
   flutter:
     sdk: flutter
-    # 
+  dio: ^5.9.2
   flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.7
   flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^10.0.0
   flutter_svg: ^2.2.4
+  bloc: 8.1.4
+  flutter_bloc: ^8.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -52,3 +55,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+# تأكد أن هذا الجزء في بداية السطر تماماً (بدون مسافات قبله)
+flutter_native_splash:
+  color: "#1597A8"
+  image: assets/images/logo_other.png
+  android: true
+  ios: true
+  fullscreen: true
+  android_12:
+    image: assets/images/logo_other.png
+    color: "#1597A8"

@@ -1,14 +1,21 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+class SecureKeys {
+  static const String token = 'token';
+  static const String name = 'name';
+  static const String userId = 'userid';
+  static const String tempUserId = 'temp_user_id';
+}
+
 class SecureStorage {
   // Singleton pattern
   static final SecureStorage _instance = SecureStorage._internal();
   factory SecureStorage() => _instance;
   SecureStorage._internal();
-
+  late SecureStorage _secure;
   final FlutterSecureStorage _storage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(
       accessibility: KeychainAccessibility.first_unlock_this_device,
     ),
@@ -86,5 +93,22 @@ class SecureStorage {
 
   Future<Map<String, String>> readAll() async {
     return await _storage.readAll();
+  }
+}
+
+class AuthStorage {
+  // 1. Singleton pattern
+  static final AuthStorage _instance = AuthStorage._internal();
+  factory AuthStorage() => _instance;
+  AuthStorage._internal();
+
+  final SecureStorage security = SecureStorage(); // استخدام نسخة السكيورتي
+
+  String? token;
+  String? userId;
+
+  Future<void> init() async {
+    token = await security.getString(SecureKeys.token);
+    userId = await security.getString(SecureKeys.userId);
   }
 }
