@@ -1,6 +1,6 @@
 class ApiConstant {
   /// Base URL for API endpoints
-  static const String baseUrl = 'https://real.newcinderella.online/api';
+  static const String baseUrl = 'https://real.newcinderella.online/api/v1/';
 
   /// Fake Token
   
