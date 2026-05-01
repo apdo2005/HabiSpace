@@ -22,13 +22,8 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    // 1. جعلنا الدالة async هنا أيضاً
     if (err.response?.statusCode == 401) {
-      // 2. استخدمنا await عند مسح البيانات
-      await SecureStorage().clear();
-
-      // يمكنك هنا إضافة Logic لتوجيه المستخدم لصفحة الـ Login لو حابب
-      // Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+ 
     }
 
     handler.next(err);

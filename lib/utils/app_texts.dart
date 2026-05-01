@@ -80,4 +80,10 @@ class AppTexts {
   static const String selectLanguageSubtitle = 'selectLanguageSubtitle';
   static const String arabicLanguage = 'arabicLanguage';
   static const String englishLanguage = 'englishLanguage';
+
+  // Home screen
+  static const String bestOffers = 'Best Offers';
+  static const String featured = 'Featured';
+  static const String recommended = 'Recommended';
+  static const String viewAll = 'View All';
 }
