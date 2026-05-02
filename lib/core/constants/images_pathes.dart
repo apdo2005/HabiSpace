@@ -18,4 +18,5 @@ class ImagesPathes {
   static const String notifi       ='assets/icons/notifi_icon.svg';
   static const String searsh       ='assets/icons/search_icon.svg';
   static const String sale         ='assets/icons/accepted_booking_icon.svg';
-}       
+  static const String user         ='assets/images/profile.svg';
+ }       

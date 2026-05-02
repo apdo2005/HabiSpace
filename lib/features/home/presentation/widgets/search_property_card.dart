@@ -36,12 +36,23 @@ class SearchPropertyCard extends StatelessWidget {
                   ? SizedBox(
                 height: AppSizes.h140,
                 width: AppSizes.w370,
-                child: SvgPicture.network(
+                child: Image.network(
                   property.images[0],
                   fit: BoxFit.cover,
-                  placeholderBuilder: (_) => Container(
-                    color: Colors.grey.shade200,
-                    child: const Center(child: CircularProgressIndicator()),
+                  loadingBuilder: (_, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: Colors.grey.shade200,
+                      child: const Center(child: CircularProgressIndicator()),
+                    );
+                  },
+                  errorBuilder: (_, __, ___) => SizedBox(
+                    height: AppSizes.h140,
+                    width: AppSizes.w370,
+                    child: SvgPicture.asset(
+                      ImagesPathes.test,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               )

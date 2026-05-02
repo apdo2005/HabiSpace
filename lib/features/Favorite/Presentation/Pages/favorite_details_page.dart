@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:habispace/features/Favorite/Domain/Entities/PropertyEntity.dart';
+import 'package:habispace/features/Favorite/Presentation/Cubit/FavoriteCubit/favorite_cubit_cubit.dart';
+import 'package:habispace/features/Favorite/Presentation/Cubit/FavoriteCubit/favorite_cubit_state.dart';
 import 'package:habispace/features/Favorite/Presentation/Widgets/amenity_chip_widget.dart';
 import 'package:habispace/features/Favorite/Presentation/Widgets/favorite_card_widget.dart';
 import 'package:habispace/features/Favorite/Presentation/Widgets/property_image_widget.dart';
@@ -22,53 +25,64 @@ class FavoriteDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final related = _relatedProperties;
-
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7F7F2),
-      // Stack: scroll content behind a floating back button
-      body: Stack(
-        children: [
-          CustomScrollView(
-            slivers: [
-              _DetailsSliverAppBar(property: property),
-              SliverToBoxAdapter(
-                child: _DetailsContent(property: property),
-              ),
-              if (related.isNotEmpty) ...[
-                const SliverToBoxAdapter(child: _RelatedHeader()),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
-                  sliver: SliverList.separated(
-                    itemCount: related.length,
-                    separatorBuilder: (_, __) => const SizedBox(height: 16),
-                    itemBuilder: (context, index) => FavoriteCardWidget(
-                      property: related[index],
-                      onTap: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => FavoriteDetailsPage(
-                            property: related[index],
-                            allFavorites: allFavorites,
+     return BlocBuilder<FavoriteCubit, FavoriteState>(
+      builder: (context, state) {
+         
+         bool isFavoriteNow=false;
+        if (state is FavoriteLoaded) {
+          isFavoriteNow= state.favorites.any((p)=> p.id == property.id);
+         }
+        return Scaffold(
+          backgroundColor: const Color(0xFFF7F7F2),
+          // Stack: scroll content behind a floating back button
+          body: Stack(
+            children: [
+              CustomScrollView(
+                slivers: [
+                  _DetailsSliverAppBar(property: property),
+                  SliverToBoxAdapter(
+                    child: _DetailsContent(property: property,isFavorite: isFavoriteNow,),
+                  ),
+                  if (related.isNotEmpty) ...[
+                    const SliverToBoxAdapter(child: _RelatedHeader()),
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
+                      sliver: SliverList.separated(
+                        itemCount: related.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 16),
+                        itemBuilder: (context, index) => FavoriteCardWidget(
+                          property: related[index],
+                          onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BlocProvider.value(
+                                value: context.read<FavoriteCubit>(),
+                                child: FavoriteDetailsPage(
+                                  property: related[index],
+                                  allFavorites: allFavorites,
+                                ),
+                              ),
+                            ),
                           ),
+                          onFavoriteTap: () {},
                         ),
                       ),
-                      onFavoriteTap: () {},
                     ),
-                  ),
+                  ],
+                ],
+              ),
+
+              // Floating back button — always visible, always tappable
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: _FloatingBackButton(),
                 ),
-              ],
+              ),
             ],
           ),
-
-          // Floating back button — always visible, always tappable
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: _FloatingBackButton(),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -120,8 +134,9 @@ class _DetailsSliverAppBar extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             PropertyImageWidget(
-              imageUrl:
-                  property.images.isNotEmpty ? property.images.first : null,
+              imageUrl: property.images.isNotEmpty
+                  ? property.images.first
+                  : null,
             ),
             // Dark gradient at top so back button stays readable when collapsed
             const DecoratedBox(
@@ -149,7 +164,8 @@ class _DetailsSliverAppBar extends StatelessWidget {
 
 class _DetailsContent extends StatelessWidget {
   final PropertyEntity property;
-  const _DetailsContent({required this.property});
+  final bool isFavorite;
+  const _DetailsContent({required this.property,required this.isFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +178,7 @@ class _DetailsContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _DetailsTitleRow(property: property),
+          _DetailsTitleRow(property: property,isFavorite: isFavorite,),
           const SizedBox(height: 10),
           _DetailsLocationRow(property: property),
           const SizedBox(height: 16),
@@ -179,7 +195,8 @@ class _DetailsContent extends StatelessWidget {
 
 class _DetailsTitleRow extends StatelessWidget {
   final PropertyEntity property;
-  const _DetailsTitleRow({required this.property});
+  final bool isFavorite;
+  const _DetailsTitleRow({required this.property,required this.isFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +214,14 @@ class _DetailsTitleRow extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        const Icon(Icons.star, color: Color(0xFFFFC107), size: 28),
+        GestureDetector(
+          onTap: () => context.read<FavoriteCubit>().toggleFavorite(property),
+          child: Icon(
+            isFavorite ? Icons.star : Icons.star_border, // استخدام المتغير الممرر
+            color: isFavorite ? const Color(0xFFFFC107) : Colors.grey,
+            size: 28,
+          ),
+        ),
       ],
     );
   }
@@ -213,8 +237,11 @@ class _DetailsLocationRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Icon(Icons.location_on_outlined,
-            size: 16, color: Color(0xFF2BBFB3)),
+        const Icon(
+          Icons.location_on_outlined,
+          size: 16,
+          color: Color(0xFF2BBFB3),
+        ),
         const SizedBox(width: 4),
         Expanded(
           child: Text(
@@ -226,8 +253,11 @@ class _DetailsLocationRow extends StatelessWidget {
           const SizedBox(width: 8),
           Container(width: 1, height: 14, color: Colors.black26),
           const SizedBox(width: 8),
-          const Icon(Icons.near_me_outlined,
-              size: 15, color: Color(0xFF2BBFB3)),
+          const Icon(
+            Icons.near_me_outlined,
+            size: 15,
+            color: Color(0xFF2BBFB3),
+          ),
           const SizedBox(width: 4),
           Text(
             property.distance,

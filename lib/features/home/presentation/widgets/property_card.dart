@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:habispace/core/constants/images_pathes.dart';
+import 'package:habispace/features/Favorite/Domain/Entities/PropertyEntity.dart' as FavEntity;
+import 'package:habispace/features/Favorite/Presentation/Cubit/FavoriteCubit/favorite_cubit_cubit.dart';
+import 'package:habispace/features/Favorite/Presentation/Cubit/FavoriteCubit/favorite_cubit_state.dart';
 import 'package:habispace/shared/custom_svg_image.dart';
 import 'package:habispace/utils/app_color.dart';
 import 'package:habispace/utils/app_sizes.dart';
@@ -40,12 +44,23 @@ class PropertyCard extends StatelessWidget {
                     ? SizedBox(
                   height: AppSizes.h140,
                   width: AppSizes.w220,
-                  child: SvgPicture.network(
+                  child: Image.network(
                     property.images[0],
                     fit: BoxFit.cover,
-                    placeholderBuilder: (_) => Container(
-                      color: Colors.grey.shade200,
-                      child: const Center(child: CircularProgressIndicator()),
+                    loadingBuilder: (_, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        color: Colors.grey.shade200,
+                        child: const Center(child: CircularProgressIndicator()),
+                      );
+                    },
+                    errorBuilder: (_, __, ___) => SizedBox(
+                      height: AppSizes.h140,
+                      width: AppSizes.w220,
+                      child: SvgPicture.asset(
+                        ImagesPathes.test,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 )
@@ -119,11 +134,41 @@ class PropertyCard extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.star_border,
-                        size: AppSizes.h24,
-                        color: AppColors.black,
+                      onTap: () {
+                        try {
+                          // Convert PropertyEntity to FavEntity.PropertyEntity
+                          final favProperty = FavEntity.PropertyEntity(
+                            id: property.id,
+                            title: property.title,
+                            price: property.price.toString(),
+                            address: property.address,
+                            categoryId: property.category.id,
+                            categoryName: property.category.name,
+                            images: property.images,
+                            bedrooms: property.bedrooms,
+                            bathrooms: property.bathrooms,
+                            rating: 0.0,
+                            type: property.listingType,
+                            amenities: [],
+                            distance: '',
+                          );
+                          context.read<FavoriteCubit>().toggleFavorite(favProperty);
+                        } catch (e) {
+                          // FavoriteCubit not available in this context
+                        }
+                      },
+                      child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                        builder: (context, state) {
+                          bool isFavorite = false;
+                          if (state is FavoriteLoaded) {
+                            isFavorite = state.favorites.any((p) => p.id == property.id);
+                          }
+                          return Icon(
+                            isFavorite ? Icons.star : Icons.star_border,
+                            size: AppSizes.h24,
+                            color: isFavorite ? Colors.amber : AppColors.black,
+                          );
+                        },
                       ),
                     ),
                   ],

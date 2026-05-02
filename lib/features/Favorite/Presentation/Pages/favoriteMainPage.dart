@@ -168,9 +168,12 @@ class _EditableCard extends StatelessWidget {
                 : () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => FavoriteDetailsPage(
-                          property: property,
-                          allFavorites: allFavorites,
+                        builder: (_) => BlocProvider.value(
+                          value: context.read<FavoriteCubit>(),
+                          child: FavoriteDetailsPage(
+                            property: property,
+                            allFavorites: allFavorites,
+                          ),
                         ),
                       ),
                     ),

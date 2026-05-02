@@ -13,7 +13,7 @@ void main() async {
   ScreenUtil.ensureScreenSize;
   await SecureStorage().setString(
     StorageKeys.authToken,
-    '35|KpydfsfMqGrHuIFOAGRe89OitRqMtq3btpdkSfMQee638e93',
+    '33|2G4CUXFLt5bBhQJgTXHf3CIh4h4cvRpItjMc7u0E8bad256a',
   );
 
   await AuthStorage().init();

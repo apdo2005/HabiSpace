@@ -48,6 +48,7 @@ class PropertyImageWidget extends StatelessWidget {
         fit: BoxFit.cover,
         headers: const {'User-Agent': 'Mozilla/5.0'},
         placeholderBuilder: (_) => _Placeholder(height: height ?? 200, loading: true),
+        errorBuilder: (_, __, ___) => _Placeholder(height: height ?? 200),
       );
       // Wrap in SizedBox so height is respected
       image = SizedBox(

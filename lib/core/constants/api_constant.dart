@@ -7,7 +7,8 @@ class ApiConstant {
   /// API endpoints
   static const String login = '/auth/login';
   static const String logout = '/auth/logout';
-  static const String getProfile = '/profile';
+  static const String getProfile = '/auth/me';
+  static const String deleteAccount='/auth/account';
   static const String signup = '/auth/register';
   static const String favorite='/favorites';
   static const String home = '/home';

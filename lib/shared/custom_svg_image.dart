@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
+import 'package:habispace/core/constants/images_pathes.dart';
 
 class CustomSvgImage extends StatelessWidget {
   const CustomSvgImage({
@@ -28,23 +29,39 @@ class CustomSvgImage extends StatelessWidget {
         ? ColorFilter.mode(color!, BlendMode.srcIn)
         : null;
 
-    final Widget svgWidget = _isNetworkUrl
-        ? SvgPicture.network(
-            path,
-            fit: fit ?? BoxFit.contain,
-            colorFilter: colorFilter,
-            placeholderBuilder: (_) => Container(
-              width: width,
-              height: height,
-              color: Colors.grey[200],
-              child: const Center(child: CircularProgressIndicator()),
-            ),
-          )
-        : SvgPicture.asset(
-            path,
-            fit: fit ?? BoxFit.contain,
-            colorFilter: colorFilter,
+    Widget svgWidget;
+
+    if (_isNetworkUrl) {
+      // Network URL — use Image.network (handles PNG/JPG/etc.)
+      svgWidget = Image.network(
+        path,
+        fit: fit ?? BoxFit.cover,
+        width: width,
+        height: height,
+        loadingBuilder: (_, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: width,
+            height: height,
+            color: Colors.grey[200],
+            child: const Center(child: CircularProgressIndicator()),
           );
+        },
+        errorBuilder: (_, __, ___) => SvgPicture.asset(
+          ImagesPathes.test,
+          fit: fit ?? BoxFit.cover,
+          width: width,
+          height: height,
+        ),
+      );
+    } else {
+      // Local asset — use SvgPicture.asset
+      svgWidget = SvgPicture.asset(
+        path,
+        fit: fit ?? BoxFit.contain,
+        colorFilter: colorFilter,
+      );
+    }
 
     if (height != null || width != null) {
       return SizedBox(height: height, width: width, child: svgWidget);

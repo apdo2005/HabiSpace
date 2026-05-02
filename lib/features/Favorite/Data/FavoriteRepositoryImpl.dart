@@ -16,5 +16,11 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   Future<void> removeFavorite(int propertyId) async {
     return await remoteDataSource.removeFavorite(propertyId);
   }
+  
+  @override
+  Future<void> addFavorite(int propertyId) async {
+    return await remoteDataSource.addFavorite(propertyId);
+  }
+   
 }  
 
