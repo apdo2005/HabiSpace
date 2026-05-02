@@ -1,8 +1,5 @@
 class AppValidators {
-  static String? required(
-    String? value, {
-    String message = 'This field is required',
-  }) {
+  static String? required(String? value, {String message = 'This field is required'}) {
     if (value == null || value.trim().isEmpty) {
       return message;
     }
@@ -80,13 +77,13 @@ class AppValidators {
       return 'At least 8 characters';
     }
 
-    if (!RegExp(r'[A-Z]').hasMatch(value)) {
-      return 'Add uppercase letter';
-    }
+    // if (!RegExp(r'[A-Z]').hasMatch(value)) {
+    //   return 'Add uppercase letter';
+    // }
 
-    if (!RegExp(r'[0-9]').hasMatch(value)) {
-      return 'Add a number';
-    }
+    // if (!RegExp(r'[0-9]').hasMatch(value)) {
+    //   return 'Add a number';
+    // }
 
     return null;
   }
@@ -104,6 +101,19 @@ class AppValidators {
   static String? minLength(String? value, int min) {
     if (value == null || value.length < min) {
       return 'Must be at least $min characters';
+    }
+    return null;
+  }
+
+  static String? name(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Name is required';
+    }
+    if (value.trim().length < 3) {
+      return 'Name must be at least 3 characters';
+    }
+    if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(value.trim())) {
+      return 'Name can only contain letters';
     }
     return null;
   }

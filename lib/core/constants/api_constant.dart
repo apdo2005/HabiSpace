@@ -6,6 +6,10 @@ class ApiConstant {
   
   /// API endpoints
   static const String login = '/auth/login';
+  static const String loginWithGoogle = 'auth/google';
+  static const String forgotPassword = '/auth/forgot-password';
+  static const String verifyOtp = '/auth/verify-otp';
+  static const String resetPassword = '/auth/reset-password';
   static const String logout = '/auth/logout';
   static const String getProfile = '/profile';
   static const String signup = '/auth/register';

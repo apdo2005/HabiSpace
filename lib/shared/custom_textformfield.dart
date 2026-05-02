@@ -95,6 +95,7 @@ class _CustomTextformfeildState extends State<CustomTextformfeild> {
 
   Widget _buildTextField(bool isRTL) {
     return TextFormField(
+
       key: widget.formFieldKey,
       validator: widget.validator,
       controller: widget.controller,
@@ -118,7 +119,7 @@ class _CustomTextformfeildState extends State<CustomTextformfeild> {
           color: AppColors.textLightColor,
         ),
         filled: true,
-        fillColor: AppColors.lightGrayColor,
+        fillColor: AppColors.light,
         contentPadding: EdgeInsetsDirectional.symmetric(
           horizontal: 16.w,
           vertical: 14.h,
