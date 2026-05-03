@@ -23,13 +23,12 @@ import '../../features/mainlayout/presentation/ui/main_layout.dart';
 import '../../features/notifications/presentation/ui/notification_view.dart';
 import '../../features/on_boarding/on_boarding.dart';
 import '../../features/profile/presentation/Cubit/cubit/profile_cubit.dart';
-import '../constants/secure_storage.dart';
 import '../di/get_it.dart';
 
 part 'app_routes.dart';
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.onBoarding,
+GoRouter createRouter(String initialLocation) => GoRouter(
+  initialLocation: initialLocation,
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
@@ -164,7 +163,7 @@ final GoRouter appRouter = GoRouter(
           child: FavoriteDetailsPage(
             property: extra['property'] as FavoritePropertyEntity,
             allFavorites:
-                extra['allFavorites'] as List<FavoritePropertyEntity>? ??
+            extra['allFavorites'] as List<FavoritePropertyEntity>? ??
                 const [],
           ),
         );

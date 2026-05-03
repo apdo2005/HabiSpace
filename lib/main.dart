@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +10,6 @@ import 'package:habispace/core/router/app_router.dart';
 import 'package:habispace/core/theme/app_theme.dart';
 import 'package:habispace/core/theme/theme_cubit.dart';
 import 'core/di/get_it.dart';
-import 'features/auth/presentation/logic/auth_bloc.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/mainlayout/presentation/ui/main_layout.dart';
-import 'features/on_boarding/on_boarding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +19,9 @@ void main() async {
   Bloc.observer = AppBlocObserver();
   setupLocator();
   DioHelper.init(baseUrl: ApiConstant.baseUrl);
+
+  final initialRoute = _getInitialRoute();
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
@@ -32,14 +30,30 @@ void main() async {
       startLocale: const Locale('en'),
       child: BlocProvider(
         create: (_) => ThemeCubit()..loadTheme(),
-        child: const MyApp(),
+        child: MyApp(initialRoute: initialRoute),
       ),
     ),
   );
 }
 
+String _getInitialRoute() {
+  final storage = AuthStorage();
+
+  if (storage.isOnboardingComplete != true) {
+    return AppRoutes.onBoarding;
+  }
+
+  final token = storage.token;
+  if (token != null && token.isNotEmpty) {
+    return AppRoutes.home;
+  }
+
+  return AppRoutes.login;
+}
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String initialRoute;
+  const MyApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +71,7 @@ class MyApp extends StatelessWidget {
               theme: AppTheme.lightTheme(),
               darkTheme: AppTheme.darkTheme(),
               themeMode: themeMode,
-              routerConfig: appRouter,
+              routerConfig: createRouter(initialRoute),
             );
           },
         );
@@ -65,5 +79,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
