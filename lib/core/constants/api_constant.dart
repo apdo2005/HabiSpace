@@ -14,9 +14,9 @@ class ApiConstant {
   static const String resetPassword = 'auth/reset-password';
   static const String signup = 'auth/register';
   static const String login = 'auth/login';
-  static const String orders='/orders';
-  static const String getProfile = '/auth/me';
-  static const String deleteAccount='/auth/account';
+  static const String orders='orders';
+  static const String getProfile = 'auth/me';
+  static const String deleteAccount='auth/account';
 
 
 

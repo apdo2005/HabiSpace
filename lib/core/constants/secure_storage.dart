@@ -10,7 +10,6 @@ class SecureKeys {
 }
 
 class SecureStorage {
-  // Singleton pattern
   static final SecureStorage _instance = SecureStorage._internal();
   factory SecureStorage() => _instance;
   SecureStorage._internal();
@@ -21,7 +20,6 @@ class SecureStorage {
     ),
   );
 
-  // ==================== SETTERS (الكتابة) ====================
   Future<void> setString(String key, String value) async {
     await _storage.write(key: key, value: value);
   }
@@ -44,8 +42,6 @@ class SecureStorage {
     await _storage.write(key: key, value: jsonString);
   }
 
-  // ==================== GETTERS (القراءة) ====================
-  // ملاحظة: كل الـ Getters هنا Future لأن التخزين الآمن يتطلب وقت للقراءة
 
   Future<String?> getString(String key) async {
     return await _storage.read(key: key);
@@ -77,7 +73,6 @@ class SecureStorage {
     }
   }
 
-  // ==================== ACTIONS (الحذف والتحقق) ====================
 
   Future<void> remove(String key) async {
     await _storage.delete(key: key);
@@ -97,12 +92,11 @@ class SecureStorage {
 }
 
 class AuthStorage {
-  // 1. Singleton pattern
   static final AuthStorage _instance = AuthStorage._internal();
   factory AuthStorage() => _instance;
   AuthStorage._internal();
 
-  final SecureStorage security = SecureStorage(); // استخدام نسخة السكيورتي
+  final SecureStorage security = SecureStorage();
 
   String? token;
   String? userId;

@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:habispace/features/auth/presentation/logic/auth_bloc.dart';
 import 'package:habispace/features/auth/presentation/logic/auth_state.dart';
 import 'package:habispace/features/auth/presentation/screens/terms_and_conditions_screen.dart';
+import '../../../../core/di/get_it.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/shared/custom_svg.dart';
 import '../../../../core/shared/custom_textformfield.dart';
@@ -13,6 +14,7 @@ import '../../../../core/shared/snakbar.dart';
 import '../../../../core/utils/app_color.dart';
 import '../../../../core/utils/app_sizes.dart';
 import '../../../../core/utils/app_validation.dart';
+import '../../domain/repository/auth_repository.dart';
 import 'in_our_privacy_policy_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -40,7 +42,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => sl<AuthBloc>(),
+  child: Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -112,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                           context,
                           "Welcome back, ${state.user.username}!",
                         );
-                        context.go(AppRoutes.home); // ← fixed (replaces stack)
+                        context.go(AppRoutes.home);
                       } else if (state is AuthError) {
                         CustomSnackBar().errorBar(
                           context,
@@ -123,7 +127,7 @@ class LoginScreen extends StatelessWidget {
                     builder: (context, state) {
                       return ElevatedButton(
                         onPressed: state is AuthLoading
-                            ? null                   // disable button while loading
+                            ? null
                             : () {
                           if (_formKey.currentState!.validate()) {
                             context.read<AuthBloc>().add(
@@ -300,6 +304,7 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+);
   }
 }

@@ -23,6 +23,7 @@ import '../../features/mainlayout/presentation/ui/main_layout.dart';
 import '../../features/notifications/presentation/ui/notification_view.dart';
 import '../../features/on_boarding/on_boarding.dart';
 import '../../features/profile/presentation/Cubit/cubit/profile_cubit.dart';
+import '../constants/secure_storage.dart';
 import '../di/get_it.dart';
 
 part 'app_routes.dart';
@@ -83,10 +84,7 @@ final GoRouter appRouter = GoRouter(
         final args = state.extra as Map<String, String>;
         return BlocProvider<AuthBloc>(
           create: (_) => sl<AuthBloc>(),
-          child: ResetPasswordScreen(
-            email: args['email']!,
-            otp: args['otp']!,
-          ),
+          child: ResetPasswordScreen(email: args['email']!, otp: args['otp']!),
         );
       },
     ),
@@ -96,18 +94,12 @@ final GoRouter appRouter = GoRouter(
       name: AppRoutes.home,
       builder: (context, state) => MultiBlocProvider(
         providers: [
-          BlocProvider<HomeCubit>(
-            create: (_) => sl<HomeCubit>()..getHome(),
-          ),
+          BlocProvider<HomeCubit>(create: (_) => sl<HomeCubit>()..getHome()),
           BlocProvider<FavoriteCubit>(
             create: (_) => sl<FavoriteCubit>()..getFavorites(),
           ),
-          BlocProvider<HistoryCubit>(
-            create: (_) => sl<HistoryCubit>(),
-          ),
-          BlocProvider<ProfileCubit>(
-            create: (_) => sl<ProfileCubit>(),
-          ),
+          BlocProvider<HistoryCubit>(create: (_) => sl<HistoryCubit>()),
+          BlocProvider<ProfileCubit>(create: (_) => sl<ProfileCubit>()),
         ],
         child: const MainLayout(),
       ),
@@ -172,7 +164,8 @@ final GoRouter appRouter = GoRouter(
           child: FavoriteDetailsPage(
             property: extra['property'] as FavoritePropertyEntity,
             allFavorites:
-            extra['allFavorites'] as List<FavoritePropertyEntity>? ?? const [],
+                extra['allFavorites'] as List<FavoritePropertyEntity>? ??
+                const [],
           ),
         );
       },
@@ -180,8 +173,6 @@ final GoRouter appRouter = GoRouter(
   ],
 
   errorBuilder: (context, state) => Scaffold(
-    body: Center(
-      child: Text('${'pageNotFound'.tr()}: ${state.error}'),
-    ),
+    body: Center(child: Text('${'pageNotFound'.tr()}: ${state.error}')),
   ),
 );

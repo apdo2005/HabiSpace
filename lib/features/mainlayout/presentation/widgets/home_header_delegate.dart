@@ -34,7 +34,7 @@ class HomeHeaderDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     return Container(
-      height: 110,
+      height: 140,
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: AppSizes.w16),
@@ -57,7 +57,7 @@ class HomeHeaderDelegate extends SliverPersistentHeaderDelegate {
                     cursorWidth: 2,
                     cursorColor: AppColors.blue,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(12),
+                      contentPadding:  EdgeInsets.zero,
                       border: InputBorder.none,
                       hintText: hint,
                       hintStyle: const TextStyle(
@@ -68,6 +68,10 @@ class HomeHeaderDelegate extends SliverPersistentHeaderDelegate {
                       prefixIcon: const Icon(
                         CupertinoIcons.search,
                         color: AppColors.textSecondaryColor,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(28),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),

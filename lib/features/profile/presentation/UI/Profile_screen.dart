@@ -92,7 +92,6 @@ List<Widget> profileViewSlivers(BuildContext context, ProfileState state) {
                   );
                 },
               ),
-
               // Language toggle
               Builder(
                 builder: (context) {
@@ -179,7 +178,7 @@ class _ProfileHeaderSliver extends StatelessWidget {
         imageUrl?.isNotEmpty == true ? imageUrl! : _fallbackImage;
 
     return SliverAppBar(
-      expandedHeight: 220,
+      expandedHeight: 240,
       backgroundColor: Colors.white,
       elevation: 0,
       pinned: false,

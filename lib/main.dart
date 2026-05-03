@@ -11,13 +11,16 @@ import 'package:habispace/core/router/app_router.dart';
 import 'package:habispace/core/theme/app_theme.dart';
 import 'package:habispace/core/theme/theme_cubit.dart';
 import 'core/di/get_it.dart';
+import 'features/auth/presentation/logic/auth_bloc.dart';
+import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/mainlayout/presentation/ui/main_layout.dart';
+import 'features/on_boarding/on_boarding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   ScreenUtil.ensureScreenSize;
   await AuthStorage().init();
-  await SecureStorage().setString('token', SecureKeys.token);
   Bloc.observer = AppBlocObserver();
   setupLocator();
   DioHelper.init(baseUrl: ApiConstant.baseUrl);
@@ -62,3 +65,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

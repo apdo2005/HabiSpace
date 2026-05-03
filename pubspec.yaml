@@ -26,8 +26,10 @@ dependencies:
   google_fonts:
   smooth_page_indicator:
   font_awesome_flutter:
-  dartz:
-  google_sign_in:
+  dartz: ^0.10.1
+  google_sign_in: ^7.2.0
+  fpdart: ^1.2.0
+
 
 dev_dependencies:
   flutter_test:

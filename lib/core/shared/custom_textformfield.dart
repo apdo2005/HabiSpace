@@ -7,8 +7,8 @@ class CustomTextformfeild extends StatefulWidget {
   const CustomTextformfeild({
     required this.keyboardType,
     required this.controller,
-    required this.validator,
-    required this.formFieldKey,
+     this.validator,
+     this.formFieldKey,
     this.borderRadius,
     this.hintText,
     this.labelText,
@@ -53,7 +53,6 @@ class _CustomTextformfeildState extends State<CustomTextformfeild> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ستايل النص العلوي (Label)
         if (widget.labelText != null)
           Padding(
             padding: EdgeInsetsDirectional.only(bottom: 8.h),
