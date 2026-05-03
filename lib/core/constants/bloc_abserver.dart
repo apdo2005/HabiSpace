@@ -97,8 +97,8 @@ class AppLogger {
     final time = DateTime.now().toIso8601String();
 
     final emoji = switch (level) {
-      LogLevel.debug => '🐛Loading Cubit',
-      LogLevel.info => '💡Creating Cubit',
+      LogLevel.debug => '🐛Loading cubit',
+      LogLevel.info => '💡Creating cubit',
       LogLevel.warning => '⚠️ Warning',
       LogLevel.error => '🔥Error',
     };

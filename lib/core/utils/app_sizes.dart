@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppSizes {
   /// fontSize
   static final double sp8 = 8.sp;
+  static final double sp10 = 10.sp;
   static final double sp12 = 12.sp;
   static final double sp14 = 14.sp;
   static final double sp16 = 16.sp;
@@ -19,16 +20,19 @@ class AppSizes {
   static final double h4 = 4.h;
   static final double h6 = 6.h;
   static final double h8 = 8.h;
+  static final double h10 = 10.h;
   static final double h12 = 12.h;
   static final double h14 = 14.h;
   static final double h16 = 16.h;
   static final double h18 = 18.h;
   static final double h20 = 20.h;
   static final double h24 = 24.h;
+  static final double h25 = 25.h;
   static final double h28 = 28.h;
   static final double h30 = 30.h;
   static final double h32 = 32.h;
   static final double h34 = 34.h;
+  static final double h35 = 35.h;
   static final double h40 = 40.h;
   static final double h42 = 42.h;
   static final double h44 = 44.h;
@@ -44,9 +48,15 @@ class AppSizes {
   static final double h117 = 117.h;
   static final double h130 = 130.h;
   static final double h140 = 140.h;
+  static final double h150 = 150.h;
+  static final double h160 = 160.h;
+  static final double h180 = 180.h;
+  static final double h190 = 190.h;
   static final double h200 = 200.h;
   static final double h205 = 205.h;
   static final double h250 = 250.h;
+  static final double h260 = 260.h;
+  static final double h290 = 290.h;
   static final double h330 = 330.h;
 
   /// width
@@ -70,11 +80,22 @@ class AppSizes {
   static final double w56 = 56.w;
   static final double w64 = 64.w;
   static final double w70 = 70.w;
+  static final double w75 = 75.w;
   static final double w80 = 80.w;
+  static final double w85 = 85.w;
+  static final double w90 = 90.w;
   static final double w130 = 130.w;
+  static final double w150 = 150.w;
+  static final double w160 = 160.w;
+  static final double w170 = 170.w;
+  static final double w180 = 180.w;
   static final double w200 = 200.w;
   static final double w215 = 215.w;
+  static final double w220 = 220.w;
   static final double w240 = 240.w;
+  static final double w320 = 320.w;
+  static final double w340 = 340.w;
+  static final double w360 = 360.w;
 
   /// radius
   static final double r4 = 4.r;

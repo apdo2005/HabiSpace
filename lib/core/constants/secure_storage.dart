@@ -6,6 +6,7 @@ class SecureKeys {
   static const String name = 'name';
   static const String userId = 'userid';
   static const String tempUserId = 'temp_user_id';
+  static const String onboardingComplete = 'onboarding_complete';
 }
 
 class SecureStorage {
@@ -13,7 +14,6 @@ class SecureStorage {
   static final SecureStorage _instance = SecureStorage._internal();
   factory SecureStorage() => _instance;
   SecureStorage._internal();
-  late SecureStorage _secure;
   final FlutterSecureStorage _storage = const FlutterSecureStorage(
     aOptions: AndroidOptions(),
     iOptions: IOSOptions(
@@ -106,9 +106,11 @@ class AuthStorage {
 
   String? token;
   String? userId;
+  bool? isOnboardingComplete;
 
   Future<void> init() async {
     token = await security.getString(SecureKeys.token);
     userId = await security.getString(SecureKeys.userId);
+    isOnboardingComplete = await security.getBool(SecureKeys.onboardingComplete);
   }
 }

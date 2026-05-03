@@ -38,9 +38,9 @@ class LoggingInterceptor extends Interceptor {
 
     final responseData = response.data.toString();
     if (responseData.length > 500) {
-      log('║ Data: ${responseData.substring(0, 500)}... (truncated)');
+      log('║ data: ${responseData.substring(0, 500)}... (truncated)');
     } else {
-      log('║ Data: $responseData');
+      log('║ data: $responseData');
     }
 
     log('╚════════════════════════════════════════════════════════════');
@@ -52,7 +52,7 @@ class LoggingInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     print('❌ ERROR DETECTED'); // استخدم print بدل log
     print('Status Code: ${err.response?.statusCode}');
-    print('Error Data: ${err.response?.data}'); // دي اللي هتحل اللغز
+    print('Error data: ${err.response?.data}'); // دي اللي هتحل اللغز
     handler.next(err);
   }
 }

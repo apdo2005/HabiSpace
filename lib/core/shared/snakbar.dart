@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:habispace/utils/app_color.dart';
+import '../utils/app_color.dart';
+
 class CustomSnackBar {
   void errorBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(

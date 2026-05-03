@@ -1,6 +1,6 @@
- 
 import 'package:dio/dio.dart';
 
+import '../error/app_exception.dart';
 import 'auth_interceptor.dart';
 import 'logging_interceptors.dart';
 
@@ -24,7 +24,6 @@ class DioHelper {
           'Content-Type': 'application/json',
         },
         validateStatus: (status) {
-          // Accept all status codes and handle them in the app
           return status != null && status >= 100 && status < 600;
         },
       ),
@@ -37,7 +36,6 @@ class DioHelper {
 
   static void _addInterceptors(bool enableLogger) {
     _dio.interceptors.add(AuthInterceptor());
-
     if (enableLogger) {
       _dio.interceptors.add(LoggingInterceptor());
     }
@@ -48,11 +46,15 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    return await _dio.get(
-      path,
-      queryParameters: query,
-      options: Options(extra: {'withAuth': withAuth}),
-    );
+    try {
+      return await _dio.get(
+        path,
+        queryParameters: query,
+        options: Options(extra: {'withAuth': withAuth}),
+      );
+    } catch (e) {
+      throw handleException(e);
+    }
   }
 
   static Future<Response> post({
@@ -61,12 +63,16 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    return await _dio.post(
-      path,
-      data: data,
-      queryParameters: query,
-      options: Options(extra: {'withAuth': withAuth}),
-    );
+    try {
+      return await _dio.post(
+        path,
+        data: data,
+        queryParameters: query,
+        options: Options(extra: {'withAuth': withAuth}),
+      );
+    } catch (e) {
+      throw handleException(e);
+    }
   }
 
   static Future<Response> put({
@@ -75,12 +81,16 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    return await _dio.put(
-      path,
-      data: data,
-      queryParameters: query,
-      options: Options(extra: {'withAuth': withAuth}),
-    );
+    try {
+      return await _dio.put(
+        path,
+        data: data,
+        queryParameters: query,
+        options: Options(extra: {'withAuth': withAuth}),
+      );
+    } catch (e) {
+      throw handleException(e);
+    }
   }
 
   static Future<Response> delete({
@@ -89,12 +99,16 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    return await _dio.delete(
-      path,
-      data: data,
-      queryParameters: query,
-      options: Options(extra: {'withAuth': withAuth}),
-    );
+    try {
+      return await _dio.delete(
+        path,
+        data: data,
+        queryParameters: query,
+        options: Options(extra: {'withAuth': withAuth}),
+      );
+    } catch (e) {
+      throw handleException(e);
+    }
   }
 
   static Future<Response> postFormData({
@@ -103,14 +117,18 @@ class DioHelper {
     Map<String, dynamic>? query,
     bool withAuth = false,
   }) async {
-    return await _dio.post(
-      path,
-      data: formData,
-      queryParameters: query,
-      options: Options(
-        extra: {'withAuth': withAuth},
-        contentType: 'multipart/form-data',
-      ),
-    );
+    try {
+      return await _dio.post(
+        path,
+        data: formData,
+        queryParameters: query,
+        options: Options(
+          extra: {'withAuth': withAuth},
+          contentType: 'multipart/form-data',
+        ),
+      );
+    } catch (e) {
+      throw handleException(e);
+    }
   }
 }
