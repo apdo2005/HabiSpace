@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/app_color.dart';
 import '../../../favorite/presentation/cubit/FavoriteCubit/favorite_cubit_cubit.dart';
 import '../../../favorite/presentation/cubit/FavoriteCubit/favorite_cubit_state.dart';
@@ -33,7 +35,7 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
           style: TextStyle(
             fontSize: AppSizes.sp16,
             fontWeight: FontWeight.w700,
-            color: AppColors.secondBlack,
+            color: context.appTheme.titleText,
           ),
         ),
         SizedBox(height: AppSizes.h12),
@@ -56,7 +58,7 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.light,
+                  color: context.appTheme.cardBg,
                   borderRadius: BorderRadius.circular(AppSizes.r16),
                   boxShadow: [
                     BoxShadow(
@@ -76,11 +78,11 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
                           height: AppSizes.h180,
                           width: double.infinity,
                           child: p.images.isNotEmpty
-                              ? Image.network(
-                                  p.images[0],
+                              ? CachedNetworkImage(
+                                  imageUrl: p.images[0],
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) =>
-                                      Container(color: AppColors.borderColor),
+                                  // errorBuilder: (_, __, ___) =>
+                                  //     Container(color: AppColors.borderColor),
                                 )
                               : Container(color: AppColors.borderColor),
                         ),
@@ -93,7 +95,7 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
                               vertical: 5,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: context.appTheme.cardBg,
                               borderRadius: BorderRadius.circular(AppSizes.r20),
                             ),
                             child: Row(
@@ -112,7 +114,7 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: AppSizes.sp11,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.secondBlack,
+                                    color: context.appTheme.titleText,
                                   ),
                                 ),
                               ],
@@ -134,7 +136,7 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: AppSizes.sp15,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.secondBlack,
+                                    color: context.appTheme.titleText,
                                   ),
                                 ),
                               ),
@@ -242,7 +244,7 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
                                       style: TextStyle(
                                         fontSize: AppSizes.sp16,
                                         fontWeight: FontWeight.w800,
-                                        color: AppColors.secondBlack,
+                                        color: context.appTheme.titleText,
                                       ),
                                     ),
                                     if (p.listingType != 'sale')
@@ -265,11 +267,14 @@ class DetailsYouMustAlsoLike extends StatelessWidget {
                                   ),
                                   SizedBox(width: 3),
                                   Text(
-                                    '4.8',
+                                    (p.rating != null && p.rating! > 0
+                                            ? p.rating!
+                                            : 0.0)
+                                        .toStringAsFixed(1),
                                     style: TextStyle(
                                       fontSize: AppSizes.sp13,
                                       fontWeight: FontWeight.w600,
-                                      color: AppColors.secondBlack,
+                                      color: context.appTheme.titleText,
                                     ),
                                   ),
                                 ],
